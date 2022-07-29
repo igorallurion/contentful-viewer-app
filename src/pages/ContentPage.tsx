@@ -1,0 +1,33 @@
+import { useEffect } from "preact/hooks";
+import { useParams } from "react-router-dom";
+
+import { useLoadPage } from "../hooks/useLoadPage";
+import { RenderContent } from "../components/RenderContent";
+
+export function ContentPage() {
+  const { entryId } = useParams();
+  const content = useLoadPage(entryId);
+
+  useEffect(() => {
+    if (!content) {
+      return;
+    }
+
+    console.log("content loaded");
+    document.title = content.title;
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute("content", content.description);
+  }, [content]);
+
+  if (!content) {
+    return <em>Loading</em>;
+  }
+
+  return (
+    <div class="page">
+      <h1>{content.title}</h1>
+      <RenderContent content={content.body.content} />
+    </div>
+  );
+}
