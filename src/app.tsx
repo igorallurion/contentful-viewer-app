@@ -11,7 +11,7 @@ export function App() {
       <Routes>
         <Route path="/">
           <Route index element={<HomePage />} />
-          <Route path=":entryId" element={<ContentPage />} />
+          <Route path="/:locale/:slug" element={<ContentPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

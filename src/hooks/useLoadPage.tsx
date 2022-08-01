@@ -12,19 +12,12 @@ type Page = CfPage & {
   _contentType: string;
 };
 
-const localeMap: Record<string, string> = {
-  en: "en-US",
-  "pt-BR": "pt-BR",
-};
-
-export function useLoadPage(pathname?: string) {
+export function useLoadPage(locale?: string, slug?: string) {
   const [content, setContent] = useState<Page | null>(null);
   const client = useContentful();
-  const browserLanguage = navigator.language ?? "en";
-  const locale = localeMap[browserLanguage] ?? "en-US";
 
   useEffect(() => {
-    if (!pathname) {
+    if (!locale || !slug) {
       return;
     }
 
@@ -32,7 +25,7 @@ export function useLoadPage(pathname?: string) {
       .getEntries<CfPage>({
         content_type: "page",
         locale,
-        "fields.url": pathname,
+        "fields.url": `/${slug}`,
       })
       .then((res) => {
         console.log(res.items);
@@ -44,7 +37,7 @@ export function useLoadPage(pathname?: string) {
         setContent(parsePage(entry));
       })
       .catch((err) => console.log(err));
-  }, [pathname]);
+  }, [slug, locale]);
 
   return content;
 }

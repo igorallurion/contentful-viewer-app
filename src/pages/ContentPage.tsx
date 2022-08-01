@@ -5,8 +5,8 @@ import { useLoadPage } from "../hooks/useLoadPage";
 import { RenderContent } from "../components/RenderContent";
 
 export function ContentPage() {
-  const { pathname } = useLocation();
-  const content = useLoadPage(pathname);
+  const { slug, locale } = useParams();
+  const content = useLoadPage(locale, slug);
 
   useEffect(() => {
     if (!content) {
