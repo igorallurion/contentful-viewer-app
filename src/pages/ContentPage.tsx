@@ -1,12 +1,12 @@
 import { useEffect } from "preact/hooks";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 import { useLoadPage } from "../hooks/useLoadPage";
 import { RenderContent } from "../components/RenderContent";
 
 export function ContentPage() {
-  const { entryId } = useParams();
-  const content = useLoadPage(entryId);
+  const { pathname } = useLocation();
+  const content = useLoadPage(pathname);
 
   useEffect(() => {
     if (!content) {
